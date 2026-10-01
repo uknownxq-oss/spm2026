@@ -1,0 +1,1772 @@
+html
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengiraan Detik Peperiksaan SPM 2026 - Tema Crystal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans, Orbitron & Caveat for Aesthetic Quote -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Orbitron:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tone.js for Ambient Chimes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Orbitron', 'monospace'],
+                        quote: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        crystal: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            300: '#7dd3fc',
+                            500: '#0ea5e9',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                            prism: '#d8b4fe',
+                            cyan: '#22d3ee',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Theme Custom Color Palette Definitions */
+        :root, body[data-theme="pink"] {
+            --accent-primary: #f472b6;
+            --accent-secondary: #ec4899;
+            --accent-light: #fbcfe8;
+            --accent-glow: rgba(244, 114, 182, 0.35);
+            --accent-gradient-from: #f43f5e;
+            --accent-gradient-via: #ec4899;
+            --accent-gradient-to: #c084fc;
+            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #f472b6 30%, #fbcfe8 60%, #ffffff 100%);
+            --particle-hue-1: 330;
+            --particle-hue-2: 350;
+            --badge-bg: rgba(244, 114, 182, 0.2);
+            --badge-border: rgba(244, 114, 182, 0.4);
+            --badge-text: #fbcfe8;
+        }
+
+        body[data-theme="blue"] {
+            --accent-primary: #38bdf8;
+            --accent-secondary: #0ea5e9;
+            --accent-light: #e0f2fe;
+            --accent-glow: rgba(56, 189, 248, 0.35);
+            --accent-gradient-from: #0ea5e9;
+            --accent-gradient-via: #38bdf8;
+            --accent-gradient-to: #818cf8;
+            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #7dd3fc 30%, #e0e7ff 60%, #ffffff 100%);
+            --particle-hue-1: 190;
+            --particle-hue-2: 210;
+            --badge-bg: rgba(56, 189, 248, 0.2);
+            --badge-border: rgba(56, 189, 248, 0.4);
+            --badge-text: #7dd3fc;
+        }
+
+        body[data-theme="purple"] {
+            --accent-primary: #c084fc;
+            --accent-secondary: #a855f7;
+            --accent-light: #f3e8ff;
+            --accent-glow: rgba(192, 132, 252, 0.35);
+            --accent-gradient-from: #8b5cf6;
+            --accent-gradient-via: #c084fc;
+            --accent-gradient-to: #f472b6;
+            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #c084fc 30%, #f3e8ff 60%, #ffffff 100%);
+            --particle-hue-1: 260;
+            --particle-hue-2: 280;
+            --badge-bg: rgba(192, 132, 252, 0.2);
+            --badge-border: rgba(192, 132, 252, 0.4);
+            --badge-text: #e9d5ff;
+        }
+
+        body[data-theme="emerald"] {
+            --accent-primary: #34d399;
+            --accent-secondary: #10b981;
+            --accent-light: #d1fae5;
+            --accent-glow: rgba(52, 211, 153, 0.35);
+            --accent-gradient-from: #059669;
+            --accent-gradient-via: #34d399;
+            --accent-gradient-to: #38bdf8;
+            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #34d399 30%, #d1fae5 60%, #ffffff 100%);
+            --particle-hue-1: 140;
+            --particle-hue-2: 160;
+            --badge-bg: rgba(52, 211, 153, 0.2);
+            --badge-border: rgba(52, 211, 153, 0.4);
+            --badge-text: #a7f3d0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #090d16;
+            color: #f1f5f9;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease;
+        }
+
+        /* Full page crystal canvas backdrop */
+        .bg-backdrop {
+            background-image: linear-gradient(to bottom, rgba(10, 15, 30, 0.72), rgba(15, 23, 42, 0.88)), url('https://n.uguu.se/eAYpGnJy.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism Crystal Cards with 70% Opacity Custom Background */
+        .crystal-card {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .crystal-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('https://n.uguu.se/hdCUDBtM.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.7;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .crystal-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent-primary);
+            box-shadow: 0 12px 40px 0 var(--accent-glow);
+            transform: translateY(-3px);
+        }
+
+        .crystal-hero {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+        }
+
+        .crystal-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('https://n.uguu.se/hdCUDBtM.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.7;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Prismatic rainbow shine border effect */
+        .prism-border {
+            position: relative;
+        }
+        .prism-border::before {
+            content: '';
+            position: absolute;
+            inset: -1.5px;
+            border-radius: inherit;
+            padding: 1.5px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), #ffffff, var(--accent-primary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.85;
+            animation: prismGlow 6s linear infinite;
+        }
+
+        @keyframes prismGlow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        /* Dynamic theme classes for custom elements */
+        .theme-accent-text {
+            color: var(--accent-primary);
+        }
+        .theme-badge {
+            background-color: var(--badge-bg);
+            border: 1px solid var(--badge-border);
+            color: var(--badge-text);
+        }
+        .theme-icon-bg {
+            background: linear-gradient(135deg, var(--accent-gradient-from), var(--accent-gradient-via), var(--accent-gradient-to));
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        /* Crystal digit box */
+        .crystal-digit {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 8px 16px rgba(0,0,0,0.3);
+            font-family: 'Orbitron', monospace;
+        }
+
+        /* Shimmer animation */
+        .shimmer-text {
+            background: var(--shimmer-grad);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
+        }
+
+        .pulse-subtle {
+            animation: pulseSubtle 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseSubtle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+    </style>
+</head>
+<body data-theme="pink" class="bg-backdrop relative min-h-screen text-slate-100 flex flex-col">
+
+    <!-- Interactive Background Particles Canvas -->
+    <canvas id="crystalCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+
+    <!-- App Wrapper -->
+    <div class="relative z-10 flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Top Requested Aesthetic Quote Banner -->
+        <div class="crystal-card rounded-2xl p-4 sm:p-5 mb-5 text-center relative overflow-hidden group border border-pink-500/30">
+            <div class="absolute -inset-1 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-sky-500/10 blur-sm pointer-events-none"></div>
+            <p class="font-quote text-lg sm:text-2xl md:text-3xl text-pink-200/90 tracking-wide leading-relaxed font-semibold relative z-10 drop-shadow-sm">
+                "hahaha lucu ya?aku selalu takut kehilangan seseorang tapi aku ga pernah dengar ada yg takut kehilangan aku...."
+            </p>
+        </div>
+
+        <!-- Header -->
+        <header class="crystal-card rounded-2xl p-4 sm:p-6 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div id="mainLogoIcon" class="w-12 h-12 rounded-xl theme-icon-bg flex items-center justify-center text-2xl text-white">
+                    <i class="fa-solid fa-gem animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight shimmer-text">
+                        PEPERIKSAAN SPM 2026
+                    </h1>
+                    <p class="text-xs sm:text-sm text-sky-200/80 font-medium flex items-center gap-2">
+                        <span><i class="fa-regular fa-calendar-check theme-accent-text"></i> Jadual Rasmi Lembaga Peperiksaan</span>
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="flex flex-wrap items-center gap-3">
+                
+                <!-- Penukar Tema (Theme Switcher) -->
+                <div class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold crystal-card hover:bg-white/20 text-white flex items-center gap-2 transition">
+                    <i id="themeIcon" class="fa-solid fa-palette text-pink-400"></i>
+                    <span class="hidden sm:inline text-slate-300">Tema:</span>
+                    <select id="themeSelect" onchange="changeTheme(this.value)" class="bg-transparent text-white text-xs sm:text-sm font-bold focus:outline-none cursor-pointer">
+                        <option value="pink" class="bg-slate-900 text-pink-300" selected>🌸 Pink Crystal (Utama)</option>
+                        <option value="blue" class="bg-slate-900 text-sky-300">💎 Blue Crystal</option>
+                        <option value="purple" class="bg-slate-900 text-purple-300">🔮 Purple Amethyst</option>
+                        <option value="emerald" class="bg-slate-900 text-emerald-300">🌿 Emerald Jade</option>
+                    </select>
+                </div>
+
+                <!-- Sound Ambient Toggle -->
+                <button id="soundBtn" onclick="toggleSound()" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold crystal-card hover:bg-white/20 text-sky-200 flex items-center gap-2 transition">
+                    <i id="soundIcon" class="fa-solid fa-volume-xmark text-slate-400"></i>
+                    <span id="soundText">Suara Kristal</span>
+                </button>
+
+                <!-- My Subjects Filter Toggle -->
+                <button id="favOnlyBtn" onclick="toggleFavOnly()" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold crystal-card hover:bg-white/20 text-amber-300 flex items-center gap-2 transition">
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <span>Subjek Saya (<span id="favCount">0</span>)</span>
+                </button>
+
+                <!-- Standard Guidelines Info Modal Button -->
+                <button onclick="openGuidelinesModal()" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold crystal-card hover:bg-white/20 text-cyan-300 flex items-center gap-2 transition">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Panduan & Arahan</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Hero Featured Countdown Section -->
+        <section class="mb-8">
+            <div class="crystal-hero prism-border rounded-3xl p-6 sm:p-8 lg:p-10 relative overflow-hidden">
+                <!-- Background ambient light glow -->
+                <div id="heroGlow1" class="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl pointer-events-none transition-all duration-500" style="background: var(--accent-glow);"></div>
+                <div id="heroGlow2" class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full blur-3xl pointer-events-none transition-all duration-500" style="background: rgba(168, 85, 247, 0.2);"></div>
+
+                <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+                    <!-- Left Info Area -->
+                    <div class="w-full lg:w-5/12 text-center lg:text-left">
+                        <div id="heroTagBox" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase theme-badge mb-3">
+                            <i class="fa-solid fa-crosshairs theme-accent-text"></i>
+                            <span id="heroTargetTag">FOKUS UTAMA AKAN DATANG</span>
+                        </div>
+                        <h2 id="heroSubjectName" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-2 leading-tight">
+                            Bahasa Melayu Kertas 1
+                        </h2>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs sm:text-sm text-sky-200 mb-4">
+                            <span class="bg-white/10 px-2.5 py-1 rounded-md font-mono theme-accent-text"><i class="fa-solid fa-barcode mr-1"></i><span id="heroSubjectCode">1103/1</span></span>
+                            <span><i class="fa-regular fa-clock theme-accent-text mr-1"></i><span id="heroSubjectTime">Isnin, 23 Nov 2026 (9:00 AM)</span></span>
+                        </div>
+                        <p id="heroSubjectDesc" class="text-xs sm:text-sm text-slate-300 line-clamp-2">
+                            Masa menjawab: 2 jam. Calon dikehendaki menyemak Buku Jawapan Bermaklumat.
+                        </p>
+
+                        <!-- Selector Dropdown for Target Subject -->
+                        <div class="mt-5">
+                            <label for="subjectSelect" class="block text-xs font-semibold uppercase tracking-wider text-sky-300 mb-1">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i>Pilih Subjek Untuk Kira Detik:
+                            </label>
+                            <select id="subjectSelect" onchange="onHeroSubjectChange(this.value)" class="w-full bg-slate-900/80 text-sky-100 text-sm rounded-xl px-4 py-2.5 border border-sky-400/30 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Right Countdown Counters (Bulan, Hari, Jam, Minit, Saat) -->
+                    <div class="w-full lg:w-7/12">
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 text-center">
+                            
+                            <!-- BULAN -->
+                            <div class="crystal-digit rounded-2xl p-3 sm:p-4 flex flex-col justify-center">
+                                <span id="cdMonth" class="text-3xl sm:text-4xl lg:text-5xl font-black theme-accent-text shimmer-text">00</span>
+                                <span class="text-[10px] sm:text-xs font-bold tracking-widest text-sky-200 uppercase mt-1">Bulan</span>
+                            </div>
+
+                            <!-- HARI -->
+                            <div class="crystal-digit rounded-2xl p-3 sm:p-4 flex flex-col justify-center">
+                                <span id="cdDay" class="text-3xl sm:text-4xl lg:text-5xl font-black theme-accent-text shimmer-text">00</span>
+                                <span class="text-[10px] sm:text-xs font-bold tracking-widest text-sky-200 uppercase mt-1">Hari</span>
+                            </div>
+
+                            <!-- JAM -->
+                            <div class="crystal-digit rounded-2xl p-3 sm:p-4 flex flex-col justify-center">
+                                <span id="cdHour" class="text-3xl sm:text-4xl lg:text-5xl font-black text-sky-200">00</span>
+                                <span class="text-[10px] sm:text-xs font-bold tracking-widest text-sky-200 uppercase mt-1">Jam</span>
+                            </div>
+
+                            <!-- MINIT -->
+                            <div class="crystal-digit rounded-2xl p-3 sm:p-4 flex flex-col justify-center">
+                                <span id="cdMin" class="text-3xl sm:text-4xl lg:text-5xl font-black text-sky-200">00</span>
+                                <span class="text-[10px] sm:text-xs font-bold tracking-widest text-sky-200 uppercase mt-1">Minit</span>
+                            </div>
+
+                            <!-- SAAT -->
+                            <div class="crystal-digit rounded-2xl p-3 sm:p-4 flex flex-col justify-center col-span-2 sm:col-span-1">
+                                <span id="cdSec" class="text-3xl sm:text-4xl lg:text-5xl font-black theme-accent-text">00</span>
+                                <span class="text-[10px] sm:text-xs font-bold tracking-widest text-sky-200 uppercase mt-1">Saat</span>
+                            </div>
+
+                        </div>
+
+                        <!-- Progress Bar to SPM Start -->
+                        <div class="mt-6 bg-slate-900/60 rounded-full p-1 border border-white/10">
+                            <div class="flex items-center justify-between text-[11px] text-sky-300 px-3 mb-1 font-semibold">
+                                <span>Kemajuan Masa Menghadapi SPM</span>
+                                <span id="progressPercentText">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                                <div id="progressBar" class="h-full rounded-full transition-all duration-1000 theme-icon-bg" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search and Filter Bar -->
+        <section class="mb-6">
+            <div class="crystal-card rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <!-- Search Input -->
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-sky-300/70"></i>
+                    <input type="text" id="searchInput" oninput="onFilterChange()" placeholder="Cari kod kertas atau subjek..." class="w-full pl-10 pr-4 py-2 bg-slate-900/60 border border-white/15 rounded-xl text-sm text-white placeholder-sky-300/50 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400">
+                </div>
+
+                <!-- Category Tabs -->
+                <div class="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
+                    <button onclick="setCategory('ALL')" class="cat-btn active-cat px-3 py-1.5 rounded-xl text-xs font-bold transition crystal-card theme-badge" data-cat="ALL">
+                        Semua (<span id="countAll">0</span>)
+                    </button>
+                    <button onclick="setCategory('BERTUTUR')" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-medium transition crystal-card hover:bg-white/10 text-sky-200" data-cat="BERTUTUR">
+                        Ujian Bertutur
+                    </button>
+                    <button onclick="setCategory('AMALI')" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-medium transition crystal-card hover:bg-white/10 text-sky-200" data-cat="AMALI">
+                        Amali Sains
+                    </button>
+                    <button onclick="setCategory('BERTULIS')" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-medium transition crystal-card hover:bg-white/10 text-sky-200" data-cat="BERTULIS">
+                        Peperiksaan Bertulis
+                    </button>
+                </div>
+
+                <!-- View Mode Toggle -->
+                <div class="flex items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-white/10">
+                    <button onclick="setViewMode('GRID')" id="btnGrid" class="px-3 py-1 rounded-lg text-xs font-bold theme-icon-bg text-white shadow">
+                        <i class="fa-solid fa-border-all"></i>
+                    </button>
+                    <button onclick="setViewMode('LIST')" id="btnList" class="px-3 py-1 rounded-lg text-xs font-bold text-sky-300 hover:text-white">
+                        <i class="fa-solid fa-list-ul"></i>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Subjects List / Grid Container -->
+        <main class="flex-1 mb-8">
+            <!-- Grid View Container -->
+            <div id="subjectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Cards populated dynamically via JavaScript -->
+            </div>
+
+            <!-- List View Container (Hidden by default) -->
+            <div id="subjectsList" class="hidden crystal-card rounded-2xl overflow-hidden border border-white/15">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900/80 text-sky-300 text-xs uppercase tracking-wider border-b border-white/10">
+                                <th class="p-4">Kod & Subjek</th>
+                                <th class="p-4">Tarikh & Waktu</th>
+                                <th class="p-4">Kategori</th>
+                                <th class="p-4">Baki Masa (Kira Detik)</th>
+                                <th class="p-4 text-center">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectsTableBody" class="divide-y divide-white/5 text-sm">
+                            <!-- Rows populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-16 crystal-card rounded-2xl">
+                <i class="fa-solid fa-folder-open text-5xl text-sky-300/40 mb-3"></i>
+                <h3 class="text-lg font-bold text-white">Tiada Kertas Peperiksaan Ditemui</h3>
+                <p class="text-sm text-sky-200/60">Cuba ubah kata kunci carian atau tetapan tapisan anda.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="crystal-card rounded-2xl p-6 text-center text-xs text-sky-200/70 mt-auto">
+            <p class="font-semibold mb-1">
+                Jadual Peperiksaan SPM 2026 Berdasarkan Dokumen Rasmi Lembaga Peperiksaan, Kementerian Pendidikan Malaysia.
+            </p>
+            <p class="text-slate-400">
+                Semoga berjaya kepada semua calon SPM 2026! Belajar bersungguh-sungguh & utamakan kesihatan.
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- Subject Details Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
+        <div class="crystal-card prism-border max-w-lg w-full rounded-3xl p-6 relative bg-slate-900/95 text-slate-100 shadow-2xl">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-4">
+                <span id="modalCatTag" class="px-2.5 py-1 rounded-md text-xs font-bold uppercase theme-badge">
+                    -
+                </span>
+                <span id="modalCode" class="font-mono text-xs theme-accent-text font-bold bg-white/10 px-2 py-0.5 rounded">
+                    -
+                </span>
+            </div>
+
+            <h3 id="modalTitle" class="text-xl sm:text-2xl font-black text-white mb-2">
+                -
+            </h3>
+
+            <div class="space-y-3 mb-6 text-xs sm:text-sm">
+                <div class="flex items-center gap-3 text-sky-200 bg-white/5 p-3 rounded-xl border border-white/10">
+                    <i class="fa-regular fa-calendar-days theme-accent-text text-lg"></i>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-slate-400">Tarikh & Waktu</div>
+                        <div id="modalDateTime" class="font-semibold text-white">-</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 text-sky-200 bg-white/5 p-3 rounded-xl border border-white/10">
+                    <i class="fa-regular fa-hourglass-half text-amber-400 text-lg"></i>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-slate-400">Tempoh Masa Peperiksaan</div>
+                        <div id="modalDuration" class="font-semibold text-white">-</div>
+                    </div>
+                </div>
+
+                <div class="bg-white/5 p-3 rounded-xl border border-white/10">
+                    <div class="text-[10px] uppercase tracking-wider text-slate-400 mb-1">
+                        <i class="fa-solid fa-pen-ruler theme-accent-text mr-1"></i>Arahan Khas & Peralatan Dibenarkan
+                    </div>
+                    <div id="modalInstructions" class="text-slate-200 leading-relaxed text-xs">
+                        -
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Live Countdown Breakdown -->
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-pink-500/30 text-center mb-6">
+                <div class="text-xs uppercase theme-accent-text font-bold tracking-wider mb-2">
+                    <i class="fa-solid fa-stopwatch mr-1"></i>Baki Masa Sehingga Bermula
+                </div>
+                <div id="modalCountdownText" class="text-xl sm:text-2xl font-black font-mono text-white shimmer-text">
+                    0 Bulan, 0 Hari, 0 Jam, 0 Minit
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button id="modalFavToggleBtn" onclick="toggleFavFromModal()" class="px-4 py-2 rounded-xl text-xs font-bold crystal-card bg-amber-500/20 text-amber-300 border-amber-400/40 hover:bg-amber-500/30 flex items-center gap-2">
+                    <i class="fa-solid fa-star"></i>
+                    <span id="modalFavText">Tambah ke Subjek Saya</span>
+                </button>
+                <button onclick="closeDetailModal()" class="px-4 py-2 rounded-xl text-xs font-bold theme-icon-bg text-white">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPM Guidelines Modal -->
+    <div id="guidelinesModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
+        <div class="crystal-card prism-border max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative bg-slate-900/95 text-slate-100 shadow-2xl max-h-[85vh] flex flex-col">
+            <button onclick="closeGuidelinesModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 class="text-xl sm:text-2xl font-black text-white mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved theme-accent-text"></i> Garis Panduan SPM 2026
+            </h3>
+            <p class="text-xs text-sky-200/70 mb-4">Ringkasan Syarat & Arahan Rasmi Lembaga Peperiksaan KPM</p>
+
+            <div class="overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-300 pr-2">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <h4 class="font-bold theme-accent-text mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-clock text-amber-400"></i> Ketibaan Calon
+                    </h4>
+                    <p>Calon mesti berada di Dewan/Bilik Peperiksaan **20 minit** sebelum peperiksaan bertulis/Ujian Mendengar bermula. Untuk Ujian Amali & Bertutur, hadir **10 minit lebih awal** di Bilik Lapor Diri.</p>
+                </div>
+
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <h4 class="font-bold theme-accent-text mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-emerald-400"></i> Dokumen Pengenalan Diri
+                    </h4>
+                    <p>Wajib meletakkan Kad Pengenalan atau Pernyataan Pendaftaran Peperiksaan di penjuru kanan meja sepanjang waktu peperiksaan.</p>
+                </div>
+
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <h4 class="font-bold text-pink-300 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-ban text-pink-400"></i> Larangan Utama
+                    </h4>
+                    <ul class="list-disc list-inside space-y-1 text-slate-300">
+                        <li>Dilarang membawa telefon bimbit, sebarang nota, peranti elektronik, atau beg ke dewan peperiksaan.</li>
+                        <li>Dilarang menggunakan cecair pemadam (liquid paper) pada Kertas Jawapan Objektif Bermaklumat (JOB/JOTB). Gunakan pemadam lembut sahaja dengan pensel 2B/BB.</li>
+                        <li>Gunakan pen mata bola berdakwat **hitam atau biru** sahaja untuk jawapan bertulis.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeGuidelinesModal()" class="px-5 py-2 rounded-xl text-xs font-bold theme-icon-bg text-white">
+                    Saya Faham
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive Dataset of SPM 2026 Timetable from Document
+        const SPM_SUBJECTS = [
+            // UJIAN BERTUTUR
+            {
+                id: '1103-3',
+                code: '1103/3',
+                name: 'Bahasa Melayu Kertas 3 (Ujian Bertutur)',
+                type: 'BERTUTUR',
+                category: 'Teras / Bahasa',
+                dateStr: '2026-10-26T08:00:00',
+                endDateStr: '2026-10-29T16:10:00',
+                displayDate: '26 - 29 Okt 2026',
+                displayTime: '8:00 AM bermula',
+                duration: 'Mengikut Sidang',
+                instructions: 'Kertas Peperiksaan Tertutup. Calon hadir di Bilik Lapor Diri 10 minit lebih awal. Ikuti arahan Ketua Pentaksir.'
+            },
+            {
+                id: '1119-3',
+                code: '1119/3',
+                name: 'Bahasa Inggeris Kertas 3 (Ujian Bertutur)',
+                type: 'BERTUTUR',
+                category: 'Teras / Bahasa',
+                dateStr: '2026-11-02T08:00:00',
+                endDateStr: '2026-11-05T16:45:00',
+                displayDate: '2 - 5 Nov 2026',
+                displayTime: '8:00 AM bermula',
+                duration: 'Mengikut Sidang',
+                instructions: 'Kertas Peperiksaan Tertutup. Calon hadir di Bilik Lapor Diri 10 minit lebih awal.'
+            },
+
+            // UJIAN AMALI SAINS
+            {
+                id: '4531-3',
+                code: '4531/3',
+                name: 'Fizik Kertas 3 (Ujian Amali Sains)',
+                type: 'AMALI',
+                category: 'Elektif Sains',
+                dateStr: '2026-11-16T08:00:00',
+                displayDate: 'Isnin, 16 Nov 2026',
+                displayTime: '8:00 AM bermula (Sidang 1)',
+                duration: '45 minit (Semakan radas 5 min)',
+                instructions: 'Hadir 10 minit lebih awal di Bilik Lapor Diri. Ikut prosedur makmal sains.'
+            },
+            {
+                id: '4541-3',
+                code: '4541/3',
+                name: 'Kimia Kertas 3 (Ujian Amali Sains)',
+                type: 'AMALI',
+                category: 'Elektif Sains',
+                dateStr: '2026-11-17T08:00:00',
+                displayDate: 'Selasa, 17 Nov 2026',
+                displayTime: '8:00 AM bermula (Sidang 1)',
+                duration: '45 minit (Semakan radas 5 min)',
+                instructions: 'Hadir 10 minit lebih awal di Bilik Lapor Diri. Pakai kot makmal jika dikehendaki.'
+            },
+            {
+                id: '4551-3',
+                code: '4551/3',
+                name: 'Biologi Kertas 3 (Ujian Amali Sains)',
+                type: 'AMALI',
+                category: 'Elektif Sains',
+                dateStr: '2026-11-18T08:00:00',
+                displayDate: 'Rabu, 18 Nov 2026',
+                displayTime: '8:00 AM bermula (Sidang 1)',
+                duration: '45 minit (Semakan radas 5 min)',
+                instructions: 'Hadir 10 minit lebih awal di Bilik Lapor Diri.'
+            },
+            {
+                id: '4561-3',
+                code: '4561/3',
+                name: 'Sains Tambahan Kertas 3 (Ujian Amali Sains)',
+                type: 'AMALI',
+                category: 'Elektif Sains',
+                dateStr: '2026-11-18T08:15:00',
+                displayDate: 'Rabu, 18 Nov 2026',
+                displayTime: '8:15 AM bermula',
+                duration: '1 jam 30 minit',
+                instructions: 'Hadir 10 minit lebih awal di Bilik Lapor Diri.'
+            },
+
+            // PEPERIKSAAN BERTULIS & UJIAN MENDENGAR
+            // 23 Nov 2026
+            {
+                id: '1103-4',
+                code: '1103/4',
+                name: 'Bahasa Melayu Kertas 4 (Ujian Mendengar)',
+                type: 'BERTULIS',
+                category: 'Teras / Bahasa',
+                dateStr: '2026-11-23T09:00:00',
+                displayDate: 'Isnin, 23 Nov 2026',
+                displayTime: '9:00 AM - 9:30 AM',
+                duration: '30 minit',
+                instructions: 'Bahan audio dimainkan sehingga tamat sepenuhnya. Calon berada di dewan 8:30 AM.'
+            },
+            {
+                id: '1103-1',
+                code: '1103/1',
+                name: 'Bahasa Melayu Kertas 1',
+                type: 'BERTULIS',
+                category: 'Teras / Bahasa',
+                dateStr: '2026-11-23T10:45:00',
+                displayDate: 'Isnin, 23 Nov 2026',
+                displayTime: '10:45 AM - 12:45 PM',
+                duration: '2 jam',
+                instructions: 'Semak butiran pada muka hadapan Buku Jawapan Bermaklumat.'
+            },
+            {
+                id: '1103-2',
+                code: '1103/2',
+                name: 'Bahasa Melayu Kertas 2',
+                type: 'BERTULIS',
+                category: 'Teras / Bahasa',
+                dateStr: '2026-11-23T14:30:00',
+                displayDate: 'Isnin, 23 Nov 2026',
+                displayTime: '2:30 PM - 5:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Semak Buku Jawapan Bermaklumat. Gunakan pen berdakwat hitam atau biru.'
+            },
+
+            // 24 Nov 2026
+            {
+                id: '1119-4',
+                code: '1119/4',
+                name: 'Bahasa Inggeris Kertas 4 (Ujian Mendengar)',
+                type: 'BERTULIS',
+                category: 'Teras / Bahasa',
+                dateStr: '2026-11-24T09:00:00',
+                displayDate: 'Selasa, 24 Nov 2026',
+                displayTime: '9:00 AM - 9:40 AM',
+                duration: '40 minit',
+                instructions: 'Gunakan Kertas Jawapan Objektif Hibrid Bermaklumat.'
+            },
+            {
+                id: '1119-1',
+                code: '1119/1',
+                name: 'Bahasa Inggeris Kertas 1',
+                type: 'BERTULIS',
+                category: 'Teras / Bahasa',
+                dateStr: '2026-11-24T11:00:00',
+                displayDate: 'Selasa, 24 Nov 2026',
+                displayTime: '11:00 AM - 12:30 PM',
+                duration: '1 jam 30 minit',
+                instructions: 'Kertas Jawapan Objektif Hibrid Bermaklumat.'
+            },
+            {
+                id: '1119-2',
+                code: '1119/2',
+                name: 'Bahasa Inggeris Kertas 2',
+                type: 'BERTULIS',
+                category: 'Teras / Bahasa',
+                dateStr: '2026-11-24T14:30:00',
+                displayDate: 'Selasa, 24 Nov 2026',
+                displayTime: '2:30 PM - 4:00 PM',
+                duration: '1 jam 30 minit',
+                instructions: 'Semak butiran muka hadapan kertas peperiksaan.'
+            },
+
+            // 25 Nov 2026
+            {
+                id: '1223-1',
+                code: '1223/1',
+                name: 'Pendidikan Islam Kertas 1',
+                type: 'BERTULIS',
+                category: 'Teras / Agama',
+                dateStr: '2026-11-25T08:15:00',
+                displayDate: 'Rabu, 25 Nov 2026',
+                displayTime: '8:15 AM - 10:45 AM',
+                duration: '2 jam 30 minit',
+                instructions: 'Semak Buku Jawapan Bermaklumat.'
+            },
+            {
+                id: '1225',
+                code: '1225',
+                name: 'Pendidikan Moral',
+                type: 'BERTULIS',
+                category: 'Teras / Moral',
+                dateStr: '2026-11-25T08:15:00',
+                displayDate: 'Rabu, 25 Nov 2026',
+                displayTime: '8:15 AM - 10:45 AM',
+                duration: '2 jam 30 minit',
+                instructions: 'Baki kertas peperiksaan dikumpul khas oleh Pengawas.'
+            },
+            {
+                id: '3729-1',
+                code: '3729/1',
+                name: 'Pertanian Kertas 1',
+                type: 'BERTULIS',
+                category: 'Elektif Vokasional',
+                dateStr: '2026-11-25T14:30:00',
+                displayDate: 'Rabu, 25 Nov 2026',
+                displayTime: '2:30 PM - 5:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Calon MESTI membawa sendiri PENSEL WARNA.'
+            },
+
+            // 26 Nov 2026
+            {
+                id: '1449-1',
+                code: '1449/1',
+                name: 'Matematik Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Teras / Matematik',
+                dateStr: '2026-11-26T08:15:00',
+                displayDate: 'Khamis, 26 Nov 2026',
+                displayTime: '8:15 AM - 9:45 AM',
+                duration: '1 jam 30 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat (JOB). Gunakan pensel 2B/BB sahaja. Kalkulator dibenarkan.'
+            },
+            {
+                id: '1449-2',
+                code: '1449/2',
+                name: 'Matematik Kertas 2',
+                type: 'BERTULIS',
+                category: 'Teras / Matematik',
+                dateStr: '2026-11-26T10:45:00',
+                displayDate: 'Khamis, 26 Nov 2026',
+                displayTime: '10:45 AM - 1:15 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Kalkulator saintifik & alatan geometri dibenarkan.'
+            },
+
+            // 30 Nov 2026
+            {
+                id: '1249-1',
+                code: '1249/1',
+                name: 'Sejarah Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Teras / Kemanusiaan',
+                dateStr: '2026-11-30T08:15:00',
+                displayDate: 'Isnin, 30 Nov 2026',
+                displayTime: '8:15 AM - 9:15 AM',
+                duration: '1 jam',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat. Pensel 2B/BB sahaja.'
+            },
+            {
+                id: '1249-2',
+                code: '1249/2',
+                name: 'Sejarah Kertas 2',
+                type: 'BERTULIS',
+                category: 'Teras / Kemanusiaan',
+                dateStr: '2026-11-30T10:30:00',
+                displayDate: 'Isnin, 30 Nov 2026',
+                displayTime: '10:30 AM - 1:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Semak arahan pada muka hadapan kertas peperiksaan.'
+            },
+            {
+                id: '5226',
+                code: '5226',
+                name: 'Tasawwur Islam',
+                type: 'BERTULIS',
+                category: 'Elektif Agama',
+                dateStr: '2026-11-30T14:30:00',
+                displayDate: 'Isnin, 30 Nov 2026',
+                displayTime: '2:30 PM - 5:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Semak butiran pada kertas soalan.'
+            },
+
+            // 1 Dis 2026
+            {
+                id: '2611-2',
+                code: '2611/2',
+                name: 'Pendidikan Seni Visual Kertas 2 (Ujian Melukis)',
+                type: 'BERTULIS',
+                category: 'Elektif Kesenian',
+                dateStr: '2026-12-01T08:15:00',
+                displayDate: 'Selasa, 1 Dis 2026',
+                displayTime: '8:15 AM - 11:15 AM',
+                duration: '3 jam',
+                instructions: 'Calon mengambil soalan pada 24 Nov. Boleh bawa pelbagai berus, cat air, akrilik, pensel warna, marker, oil pastel dsb. Kertas lukisan dibekalkan LP.'
+            },
+            {
+                id: '2611-1',
+                code: '2611/1',
+                name: 'Pendidikan Seni Visual Kertas 1 (Teori Seni)',
+                type: 'BERTULIS',
+                category: 'Elektif Kesenian',
+                dateStr: '2026-12-01T12:00:00',
+                displayDate: 'Selasa, 1 Dis 2026',
+                displayTime: '12:00 PM - 1:00 PM',
+                duration: '1 jam',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+
+            // 2 Dis 2026
+            {
+                id: '3766-1',
+                code: '3766/1',
+                name: 'Perniagaan Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Elektif Perniagaan',
+                dateStr: '2026-12-02T08:15:00',
+                displayDate: 'Rabu, 2 Dis 2026',
+                displayTime: '8:15 AM - 9:30 AM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+            {
+                id: '4551-1',
+                code: '4551/1',
+                name: 'Biologi Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Elektif Sains',
+                dateStr: '2026-12-02T08:15:00',
+                displayDate: 'Rabu, 2 Dis 2026',
+                displayTime: '8:15 AM - 9:30 AM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+            {
+                id: '3766-2',
+                code: '3766/2',
+                name: 'Perniagaan Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Perniagaan',
+                dateStr: '2026-12-02T10:45:00',
+                displayDate: 'Rabu, 2 Dis 2026',
+                displayTime: '10:45 AM - 1:00 PM',
+                duration: '2 jam 15 minit',
+                instructions: 'Semak butiran pada muka hadapan.'
+            },
+            {
+                id: '4551-2',
+                code: '4551/2',
+                name: 'Biologi Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Sains',
+                dateStr: '2026-12-02T10:45:00',
+                displayDate: 'Rabu, 2 Dis 2026',
+                displayTime: '10:45 AM - 1:15 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Kalkulator dibenarkan.'
+            },
+
+            // 3 Dis 2026
+            {
+                id: '1511-1',
+                code: '1511/1',
+                name: 'Sains Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Teras / Sains',
+                dateStr: '2026-12-03T08:15:00',
+                displayDate: 'Khamis, 3 Dis 2026',
+                displayTime: '8:15 AM - 9:30 AM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+            {
+                id: '4531-1',
+                code: '4531/1',
+                name: 'Fizik Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Elektif Sains',
+                dateStr: '2026-12-03T08:15:00',
+                displayDate: 'Khamis, 3 Dis 2026',
+                displayTime: '8:15 AM - 9:30 AM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+            {
+                id: '1511-2',
+                code: '1511/2',
+                name: 'Sains Kertas 2',
+                type: 'BERTULIS',
+                category: 'Teras / Sains',
+                dateStr: '2026-12-03T10:30:00',
+                displayDate: 'Khamis, 3 Dis 2026',
+                displayTime: '10:30 AM - 1:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Kalkulator saintifik dibenarkan.'
+            },
+            {
+                id: '4531-2',
+                code: '4531/2',
+                name: 'Fizik Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Sains',
+                dateStr: '2026-12-03T10:30:00',
+                displayDate: 'Khamis, 3 Dis 2026',
+                displayTime: '10:30 AM - 1:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Kalkulator saintifik & pembaris dibenarkan.'
+            },
+
+            // 7 Dis 2026
+            {
+                id: '3767-1',
+                code: '3767/1',
+                name: 'Ekonomi Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Elektif Kemanusiaan',
+                dateStr: '2026-12-07T08:15:00',
+                displayDate: 'Isnin, 7 Dis 2026',
+                displayTime: '8:15 AM - 9:30 AM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+            {
+                id: '3767-2',
+                code: '3767/2',
+                name: 'Ekonomi Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Kemanusiaan',
+                dateStr: '2026-12-07T10:45:00',
+                displayDate: 'Isnin, 7 Dis 2026',
+                displayTime: '10:45 AM - 1:00 PM',
+                duration: '2 jam 15 minit',
+                instructions: 'Kalkulator dibenarkan.'
+            },
+            {
+                id: '3759-1',
+                code: '3759/1',
+                name: 'Lukisan Kejuruteraan Kertas 1',
+                type: 'BERTULIS',
+                category: 'Elektif Teknikal',
+                dateStr: '2026-12-07T14:30:00',
+                displayDate: 'Isnin, 7 Dis 2026',
+                displayTime: '2:30 PM - 5:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Bawa semua alat lukisan: Sesiku T, Pembaris Skala, Papan Lukisan A3 (297mm x 420mm) & alatan lukisan.'
+            },
+            {
+                id: '3771-1',
+                code: '3771/1',
+                name: 'Grafik Komunikasi Teknikal Kertas 1',
+                type: 'BERTULIS',
+                category: 'Elektif Teknikal',
+                dateStr: '2026-12-07T14:30:00',
+                displayDate: 'Isnin, 7 Dis 2026',
+                displayTime: '2:30 PM - 5:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Bawa Sesiku T, Pembaris Skala, Papan Lukisan A3 (297mm x 420mm) & alatan lukisan.'
+            },
+
+            // 8 Dis 2026
+            {
+                id: '6351-1',
+                code: '6351/1',
+                name: 'Bahasa Cina Kertas 1',
+                type: 'BERTULIS',
+                category: 'Elektif Bahasa',
+                dateStr: '2026-12-08T08:15:00',
+                displayDate: 'Selasa, 8 Dis 2026',
+                displayTime: '8:15 AM - 10:00 AM',
+                duration: '1 jam 45 minit',
+                instructions: 'Semak Buku Jawapan Bermaklumat.'
+            },
+            {
+                id: '6351-2',
+                code: '6351/2',
+                name: 'Bahasa Cina Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Bahasa',
+                dateStr: '2026-12-08T14:30:00',
+                displayDate: 'Selasa, 8 Dis 2026',
+                displayTime: '2:30 PM - 4:45 PM',
+                duration: '2 jam 15 minit',
+                instructions: 'Semak Buku Jawapan Bermaklumat.'
+            },
+            {
+                id: '2361-1',
+                code: '2361/1',
+                name: 'Bahasa Arab Kertas 1',
+                type: 'BERTULIS',
+                category: 'Elektif Bahasa',
+                dateStr: '2026-12-08T08:15:00',
+                displayDate: 'Selasa, 8 Dis 2026',
+                displayTime: '8:15 AM - 10:45 AM',
+                duration: '2 jam 30 minit',
+                instructions: 'Semak kertas soalan.'
+            },
+
+            // 9 Dis 2026
+            {
+                id: '4572-1',
+                code: '4572/1',
+                name: 'Sains Sukan Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Elektif Sukan',
+                dateStr: '2026-12-09T08:15:00',
+                displayDate: 'Rabu, 9 Dis 2026',
+                displayTime: '8:15 AM - 9:30 AM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+            {
+                id: '4572-2',
+                code: '4572/2',
+                name: 'Sains Sukan Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Sukan',
+                dateStr: '2026-12-09T10:30:00',
+                displayDate: 'Rabu, 9 Dis 2026',
+                displayTime: '10:30 AM - 1:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Semak kertas soalan.'
+            },
+
+            // 10 Dis 2026
+            {
+                id: '5227-1',
+                code: '5227/1',
+                name: 'Pendidikan Al-Quran dan Al-Sunnah Kertas 1',
+                type: 'BERTULIS',
+                category: 'Elektif Agama',
+                dateStr: '2026-12-10T08:15:00',
+                displayDate: 'Khamis, 10 Dis 2026',
+                displayTime: '8:15 AM - 10:45 AM',
+                duration: '2 jam 30 minit',
+                instructions: 'Semak kertas soalan.'
+            },
+            {
+                id: '3770-1',
+                code: '3770/1',
+                name: 'Sains Komputer Kertas 1',
+                type: 'BERTULIS',
+                category: 'Elektif Sains',
+                dateStr: '2026-12-10T14:30:00',
+                displayDate: 'Khamis, 10 Dis 2026',
+                displayTime: '2:30 PM - 5:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Semak butiran muka hadapan kertas peperiksaan.'
+            },
+
+            // 14 Dis 2026
+            {
+                id: '3756-1',
+                code: '3756/1',
+                name: 'Prinsip Perakaunan Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Elektif Perniagaan',
+                dateStr: '2026-12-14T08:15:00',
+                displayDate: 'Isnin, 14 Dis 2026',
+                displayTime: '8:15 AM - 9:30 AM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat. Kalkulator dibenarkan.'
+            },
+            {
+                id: '3756-2',
+                code: '3756/2',
+                name: 'Prinsip Perakaunan Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Perniagaan',
+                dateStr: '2026-12-14T10:45:00',
+                displayDate: 'Isnin, 14 Dis 2026',
+                displayTime: '10:45 AM - 1:15 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Kalkulator dibenarkan.'
+            },
+
+            // 15 Dis 2026
+            {
+                id: '4541-1',
+                code: '4541/1',
+                name: 'Kimia Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Elektif Sains',
+                dateStr: '2026-12-15T08:15:00',
+                displayDate: 'Selasa, 15 Dis 2026',
+                displayTime: '8:15 AM - 9:30 AM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+            {
+                id: '4541-2',
+                code: '4541/2',
+                name: 'Kimia Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Sains',
+                dateStr: '2026-12-15T10:45:00',
+                displayDate: 'Selasa, 15 Dis 2026',
+                displayTime: '10:45 AM - 1:15 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Jadual Berkala Unsur disediakan dalam kertas soalan. Kalkulator saintifik dibenarkan.'
+            },
+
+            // 16 Dis 2026
+            {
+                id: '2280-1',
+                code: '2280/1',
+                name: 'Geografi Kertas 1 (Aneka Pilihan)',
+                type: 'BERTULIS',
+                category: 'Elektif Kemanusiaan',
+                dateStr: '2026-12-16T11:45:00',
+                displayDate: 'Rabu, 16 Dis 2026',
+                displayTime: '11:45 AM - 1:00 PM',
+                duration: '1 jam 15 minit',
+                instructions: 'Kertas Jawapan Objektif Bermaklumat.'
+            },
+            {
+                id: '2280-2',
+                code: '2280/2',
+                name: 'Geografi Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Kemanusiaan',
+                dateStr: '2026-12-16T14:30:00',
+                displayDate: 'Rabu, 16 Dis 2026',
+                displayTime: '2:30 PM - 5:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Stensil peta TIDAK boleh digunakan. Boleh bawa Alatan Geometri (Jangka sudut 180°/360°, pembaris, jangka tolok, jangka lukis) & benang.'
+            },
+
+            // 17 Dis 2026
+            {
+                id: '3472-1',
+                code: '3472/1',
+                name: 'Matematik Tambahan Kertas 1',
+                type: 'BERTULIS',
+                category: 'Elektif Sains / Matematik',
+                dateStr: '2026-12-17T08:15:00',
+                displayDate: 'Khamis, 17 Dis 2026',
+                displayTime: '8:15 AM - 10:15 AM',
+                duration: '2 jam',
+                instructions: 'Kalkulator saintifik & alatan geometri dibenarkan. Senarai rumus disediakan.'
+            },
+            {
+                id: '3472-2',
+                code: '3472/2',
+                name: 'Matematik Tambahan Kertas 2',
+                type: 'BERTULIS',
+                category: 'Elektif Sains / Matematik',
+                dateStr: '2026-12-17T14:30:00',
+                displayDate: 'Khamis, 17 Dis 2026',
+                displayTime: '2:30 PM - 5:00 PM',
+                duration: '2 jam 30 minit',
+                instructions: 'Kalkulator saintifik dibenarkan.'
+            }
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('spm_fav_subjects') || '[]');
+        let currentCategory = 'ALL';
+        let searchQuery = '';
+        let favOnly = false;
+        let selectedHeroId = null;
+        let currentViewMode = 'GRID';
+        let currentModalSubjectId = null;
+        let isSoundOn = false;
+        let synth = null;
+        let currentTheme = localStorage.getItem('spm_crystal_theme') || 'pink';
+
+        /**
+         * Change Theme Handler (🌸 Pink Crystal, 💎 Blue Crystal, 🔮 Purple Amethyst, 🌿 Emerald Jade)
+         */
+        function changeTheme(themeKey) {
+            currentTheme = themeKey;
+            document.body.setAttribute('data-theme', themeKey);
+            localStorage.setItem('spm_crystal_theme', themeKey);
+
+            // Update Header Icon
+            const icon = document.getElementById('themeIcon');
+            if (themeKey === 'pink') icon.className = 'fa-solid fa-palette text-pink-400';
+            else if (themeKey === 'blue') icon.className = 'fa-solid fa-palette text-sky-400';
+            else if (themeKey === 'purple') icon.className = 'fa-solid fa-palette text-purple-400';
+            else if (themeKey === 'emerald') icon.className = 'fa-solid fa-palette text-emerald-400';
+
+            // Ensure select dropdown value is updated
+            document.getElementById('themeSelect').value = themeKey;
+
+            // Trigger sound chime if sound enabled
+            playCrystalChime();
+
+            // Re-render subjects to reflect theme changes
+            renderSubjects();
+        }
+
+        /**
+         * Calculates detailed breakdown in Months, Days, Hours, Minutes, Seconds
+         */
+        function calculateDetailedCountdown(targetDateStr) {
+            const target = new Date(targetDateStr);
+            const now = new Date();
+
+            if (target <= now) {
+                return { months: 0, days: 0, hours: 0, minutes: 0, seconds: 0, isPast: true };
+            }
+
+            // Calculate months difference
+            let months = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth());
+            
+            let tempDate = new Date(now);
+            tempDate.setMonth(tempDate.getMonth() + months);
+
+            if (tempDate > target) {
+                months--;
+                tempDate = new Date(now);
+                tempDate.setMonth(tempDate.getMonth() + months);
+            }
+
+            let diffMs = target - tempDate;
+            let days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+            return { months, days, hours, minutes, seconds, isPast: false };
+        }
+
+        function initHeroTarget() {
+            const now = new Date();
+            // Find the next upcoming exam, or default to BM Kertas 1
+            const upcoming = SPM_SUBJECTS.find(s => new Date(s.dateStr) > now);
+            selectedHeroId = upcoming ? upcoming.id : SPM_SUBJECTS[0].id;
+
+            // Populate Dropdown
+            const select = document.getElementById('subjectSelect');
+            select.innerHTML = SPM_SUBJECTS.map(s => `
+                <option value="${s.id}" ${s.id === selectedHeroId ? 'selected' : ''}>
+                    [${s.code}] ${s.name} - ${s.displayDate}
+                </option>
+            `).join('');
+
+            updateHeroDisplay();
+        }
+
+        function onHeroSubjectChange(val) {
+            selectedHeroId = val;
+            updateHeroDisplay();
+            playCrystalChime();
+        }
+
+        function updateHeroDisplay() {
+            const subject = SPM_SUBJECTS.find(s => s.id === selectedHeroId) || SPM_SUBJECTS[0];
+            const now = new Date();
+            const targetDate = new Date(subject.dateStr);
+
+            document.getElementById('heroSubjectName').innerText = subject.name;
+            document.getElementById('heroSubjectCode').innerText = subject.code;
+            document.getElementById('heroSubjectTime').innerText = `${subject.displayDate} (${subject.displayTime})`;
+            document.getElementById('heroSubjectDesc').innerText = subject.instructions;
+
+            document.getElementById('heroTargetTag').innerText = targetDate < now ? 'TELAH SELESAI' : 'FOKUS UTAMA AKAN DATANG';
+
+            // Calculate progress bar from start of 2026 to exam date
+            const startOfYear = new Date('2026-01-01T00:00:00');
+            const totalDuration = targetDate - startOfYear;
+            const elapsed = now - startOfYear;
+            let percent = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+            if (targetDate <= now) percent = 100;
+
+            document.getElementById('progressBar').style.width = `${percent.toFixed(1)}%`;
+            document.getElementById('progressPercentText').innerText = `${percent.toFixed(1)}% Masa Terlaksana`;
+
+            // Immediate countdown render
+            renderHeroCountdown();
+        }
+
+        function renderHeroCountdown() {
+            const subject = SPM_SUBJECTS.find(s => s.id === selectedHeroId) || SPM_SUBJECTS[0];
+            const cd = calculateDetailedCountdown(subject.dateStr);
+
+            document.getElementById('cdMonth').innerText = String(cd.months).padStart(2, '0');
+            document.getElementById('cdDay').innerText = String(cd.days).padStart(2, '0');
+            document.getElementById('cdHour').innerText = String(cd.hours).padStart(2, '0');
+            document.getElementById('cdMin').innerText = String(cd.minutes).padStart(2, '0');
+            document.getElementById('cdSec').innerText = String(cd.seconds).padStart(2, '0');
+        }
+
+        function getFilteredSubjects() {
+            return SPM_SUBJECTS.filter(s => {
+                // Category match
+                const catMatch = currentCategory === 'ALL' || s.type === currentCategory;
+                // Search match
+                const searchLower = searchQuery.toLowerCase();
+                const searchMatch = !searchQuery || 
+                    s.name.toLowerCase().includes(searchLower) || 
+                    s.code.toLowerCase().includes(searchLower) ||
+                    s.category.toLowerCase().includes(searchLower);
+                // Fav match
+                const favMatch = !favOnly || favorites.includes(s.id);
+
+                return catMatch && searchMatch && favMatch;
+            });
+        }
+
+        function renderSubjects() {
+            const list = getFilteredSubjects();
+            const gridContainer = document.getElementById('subjectsGrid');
+            const tableBody = document.getElementById('subjectsTableBody');
+            const emptyState = document.getElementById('emptyState');
+
+            // Update Fav count badge
+            document.getElementById('favCount').innerText = favorites.length;
+
+            if (list.length === 0) {
+                gridContainer.innerHTML = '';
+                tableBody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            // Render Grid
+            gridContainer.innerHTML = list.map(s => {
+                const isFav = favorites.includes(s.id);
+                const cd = calculateDetailedCountdown(s.dateStr);
+                const isPast = cd.isPast;
+
+                return `
+                    <div class="crystal-card rounded-2xl p-5 flex flex-col justify-between relative group ${isPast ? 'opacity-70' : ''}">
+                        <!-- Top Bar -->
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-lg theme-badge">
+                                ${s.code}
+                            </span>
+                            <button onclick="toggleFav('${s.id}')" class="text-lg transition ${isFav ? 'text-amber-400 scale-110' : 'text-slate-500 hover:text-amber-300'}">
+                                <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-star"></i>
+                            </button>
+                        </div>
+
+                        <!-- Title & Category -->
+                        <div class="mb-4">
+                            <h3 class="font-bold text-white text-base group-hover:text-pink-300 transition line-clamp-2">
+                                ${s.name}
+                            </h3>
+                            <span class="text-[11px] text-sky-200/60 font-medium">
+                                <i class="fa-solid fa-tag theme-accent-text mr-1"></i>${s.category}
+                            </span>
+                        </div>
+
+                        <!-- Date & Time Info -->
+                        <div class="bg-slate-900/40 p-3 rounded-xl border border-white/5 mb-4 text-xs space-y-1">
+                            <div class="text-sky-200 font-semibold flex items-center justify-between">
+                                <span><i class="fa-regular fa-calendar theme-accent-text mr-1.5"></i>${s.displayDate}</span>
+                            </div>
+                            <div class="text-slate-300 text-[11px]">
+                                <i class="fa-regular fa-clock text-amber-400 mr-1.5"></i>${s.displayTime}
+                            </div>
+                        </div>
+
+                        <!-- Countdown Badge -->
+                        <div class="bg-slate-950/60 p-2.5 rounded-xl border border-white/10 text-center mb-4">
+                            ${isPast ? `
+                                <span class="text-xs font-bold text-slate-400">Telah Selesai</span>
+                            ` : `
+                                <div class="text-[10px] theme-accent-text uppercase tracking-wider font-semibold mb-0.5">Baki Masa:</div>
+                                <div class="font-mono text-xs font-bold text-white">
+                                    ${cd.months}bln ${cd.days}h ${cd.hours}j ${cd.minutes}m ${cd.seconds}s
+                                </div>
+                            `}
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex items-center gap-2 pt-2 border-t border-white/10">
+                            <button onclick="setAsHero('${s.id}')" class="flex-1 py-1.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 text-sky-200 transition">
+                                <i class="fa-solid fa-crosshairs mr-1"></i>Fokus
+                            </button>
+                            <button onclick="openDetailModal('${s.id}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold theme-badge transition">
+                                Perincian
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Render Table
+            tableBody.innerHTML = list.map(s => {
+                const isFav = favorites.includes(s.id);
+                const cd = calculateDetailedCountdown(s.dateStr);
+
+                return `
+                    <tr class="hover:bg-white/5 transition">
+                        <td class="p-4">
+                            <div class="font-mono text-xs font-bold theme-accent-text mb-0.5">${s.code}</div>
+                            <div class="font-bold text-white">${s.name}</div>
+                        </td>
+                        <td class="p-4 text-xs text-sky-200">
+                            <div>${s.displayDate}</div>
+                            <div class="text-slate-400 text-[11px]">${s.displayTime}</div>
+                        </td>
+                        <td class="p-4 text-xs">
+                            <span class="px-2 py-1 rounded bg-white/10 text-sky-200 font-medium">${s.category}</span>
+                        </td>
+                        <td class="p-4 font-mono text-xs theme-accent-text">
+                            ${cd.isPast ? '<span class="text-slate-400">Selesai</span>' : `${cd.months}b ${cd.days}h ${cd.hours}j ${cd.minutes}m`}
+                        </td>
+                        <td class="p-4 text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <button onclick="toggleFav('${s.id}')" class="text-base ${isFav ? 'text-amber-400' : 'text-slate-500'}">
+                                    <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-star"></i>
+                                </button>
+                                <button onclick="openDetailModal('${s.id}')" class="text-xs px-2.5 py-1 rounded theme-badge">
+                                    Info
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function onFilterChange() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderSubjects();
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                if (b.dataset.cat === cat) {
+                    b.className = 'cat-btn active-cat px-3 py-1.5 rounded-xl text-xs font-bold transition crystal-card theme-badge';
+                } else {
+                    b.className = 'cat-btn px-3 py-1.5 rounded-xl text-xs font-medium transition crystal-card hover:bg-white/10 text-sky-200';
+                }
+            });
+            renderSubjects();
+        }
+
+        function toggleFavOnly() {
+            favOnly = !favOnly;
+            const btn = document.getElementById('favOnlyBtn');
+            if (favOnly) {
+                btn.classList.add('bg-amber-500/30', 'border-amber-400/50');
+            } else {
+                btn.classList.remove('bg-amber-500/30', 'border-amber-400/50');
+            }
+            renderSubjects();
+        }
+
+        function toggleFav(id) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(f => f !== id);
+            } else {
+                favorites.push(id);
+                confetti({ particleCount: 30, spread: 60, origin: { y: 0.8 } });
+            }
+            localStorage.setItem('spm_fav_subjects', JSON.stringify(favorites));
+            renderSubjects();
+            if (currentModalSubjectId === id) {
+                updateModalFavBtnState(id);
+            }
+        }
+
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            const grid = document.getElementById('subjectsGrid');
+            const list = document.getElementById('subjectsList');
+            const btnGrid = document.getElementById('btnGrid');
+            const btnList = document.getElementById('btnList');
+
+            if (mode === 'GRID') {
+                grid.classList.remove('hidden');
+                list.classList.add('hidden');
+                btnGrid.className = 'px-3 py-1 rounded-lg text-xs font-bold theme-icon-bg text-white shadow';
+                btnList.className = 'px-3 py-1 rounded-lg text-xs font-bold text-sky-300 hover:text-white';
+            } else {
+                grid.classList.add('hidden');
+                list.classList.remove('hidden');
+                btnList.className = 'px-3 py-1 rounded-lg text-xs font-bold theme-icon-bg text-white shadow';
+                btnGrid.className = 'px-3 py-1 rounded-lg text-xs font-bold text-sky-300 hover:text-white';
+            }
+        }
+
+        function setAsHero(id) {
+            selectedHeroId = id;
+            document.getElementById('subjectSelect').value = id;
+            updateHeroDisplay();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            playCrystalChime();
+        }
+
+        function openDetailModal(id) {
+            currentModalSubjectId = id;
+            const s = SPM_SUBJECTS.find(item => item.id === id);
+            if (!s) return;
+
+            document.getElementById('modalCatTag').innerText = s.category;
+            document.getElementById('modalCode').innerText = s.code;
+            document.getElementById('modalTitle').innerText = s.name;
+            document.getElementById('modalDateTime').innerText = `${s.displayDate} (${s.displayTime})`;
+            document.getElementById('modalDuration').innerText = s.duration;
+            document.getElementById('modalInstructions').innerText = s.instructions;
+
+            updateModalFavBtnState(id);
+            updateModalCountdown(s.dateStr);
+
+            document.getElementById('detailModal').classList.remove('hidden');
+            playCrystalChime();
+        }
+
+        function updateModalFavBtnState(id) {
+            const isFav = favorites.includes(id);
+            const text = document.getElementById('modalFavText');
+            if (isFav) {
+                text.innerText = 'Dalam Subjek Saya';
+            } else {
+                text.innerText = 'Tambah ke Subjek Saya';
+            }
+        }
+
+        function toggleFavFromModal() {
+            if (currentModalSubjectId) {
+                toggleFav(currentModalSubjectId);
+            }
+        }
+
+        function updateModalCountdown(dateStr) {
+            const cd = calculateDetailedCountdown(dateStr);
+            if (cd.isPast) {
+                document.getElementById('modalCountdownText').innerText = 'Peperiksaan Telah Selesai';
+            } else {
+                document.getElementById('modalCountdownText').innerText = `${cd.months} Bulan, ${cd.days} Hari, ${cd.hours} Jam, ${cd.minutes} Minit, ${cd.seconds} Saat`;
+            }
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+            currentModalSubjectId = null;
+        }
+
+        function openGuidelinesModal() {
+            document.getElementById('guidelinesModal').classList.remove('hidden');
+        }
+
+        function closeGuidelinesModal() {
+            document.getElementById('guidelinesModal').classList.add('hidden');
+        }
+
+        function toggleSound() {
+            isSoundOn = !isSoundOn;
+            const icon = document.getElementById('soundIcon');
+            const btn = document.getElementById('soundBtn');
+
+            if (isSoundOn) {
+                if (!synth) {
+                    synth = new Tone.PolySynth(Tone.Synth, {
+                        oscillator: { type: 'sine' },
+                        envelope: { attack: 0.005, decay: 0.3, sustain: 0.1, release: 1 }
+                    }).toDestination();
+                    synth.volume.value = -12;
+                }
+                Tone.start();
+                icon.className = 'fa-solid fa-volume-high text-pink-300';
+                btn.classList.add('bg-pink-500/20', 'border-pink-400/40');
+                playCrystalChime();
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-slate-400';
+                btn.classList.remove('bg-pink-500/20', 'border-pink-400/40');
+            }
+        }
+
+        function playCrystalChime() {
+            if (isSoundOn && synth) {
+                const notes = ['C6', 'E6', 'G6', 'B6'];
+                const randomNote = notes[Math.floor(Math.random() * notes.length)];
+                synth.triggerAttackRelease(randomNote, '8n');
+            }
+        }
+
+        function initCrystalCanvas() {
+            const canvas = document.getElementById('crystalCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.4;
+                    this.speedY = (Math.random() - 0.5) * 0.4 - 0.2;
+                    this.alpha = Math.random() * 0.6 + 0.2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                        this.reset();
+                    }
+                }
+                draw() {
+                    // Fetch dynamic particle hues from theme variables
+                    const computedStyle = getComputedStyle(document.body);
+                    const h1 = parseInt(computedStyle.getPropertyValue('--particle-hue-1')) || 330;
+                    const h2 = parseInt(computedStyle.getPropertyValue('--particle-hue-2')) || 350;
+                    const hue = Math.random() > 0.5 ? h1 : h2;
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${hue}, 80%, 75%, ${this.alpha})`;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = `hsla(${hue}, 100%, 70%, 0.8)`;
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < 45; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.onload = function () {
+            // Initialize theme from local storage or default Pink
+            changeTheme(currentTheme);
+
+            initCrystalCanvas();
+            initHeroTarget();
+            renderSubjects();
+
+            // Counts for category badges
+            document.getElementById('countAll').innerText = SPM_SUBJECTS.length;
+
+            // Global 1-second interval loop for real-time live countdown updates
+            setInterval(() => {
+                renderHeroCountdown();
+                if (currentModalSubjectId) {
+                    const s = SPM_SUBJECTS.find(item => item.id === currentModalSubjectId);
+                    if (s) updateModalCountdown(s.dateStr);
+                }
+                // Refresh list grid live seconds
+                renderSubjects();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
