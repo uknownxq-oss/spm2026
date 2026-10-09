@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -43,69 +44,21 @@
     </script>
 
     <style>
-        /* Theme Custom Color Palette Definitions */
-        :root, body[data-theme="pink"] {
-            --accent-primary: #f472b6;
-            --accent-secondary: #ec4899;
-            --accent-light: #fbcfe8;
-            --accent-glow: rgba(244, 114, 182, 0.35);
-            --accent-gradient-from: #f43f5e;
-            --accent-gradient-via: #ec4899;
-            --accent-gradient-to: #c084fc;
-            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #f472b6 30%, #fbcfe8 60%, #ffffff 100%);
-            --particle-hue-1: 330;
-            --particle-hue-2: 350;
-            --badge-bg: rgba(244, 114, 182, 0.2);
-            --badge-border: rgba(244, 114, 182, 0.4);
-            --badge-text: #fbcfe8;
-        }
-
-        body[data-theme="blue"] {
+        /* Base Theme: Pure Crystal Glass */
+        :root {
             --accent-primary: #38bdf8;
             --accent-secondary: #0ea5e9;
             --accent-light: #e0f2fe;
-            --accent-glow: rgba(56, 189, 248, 0.35);
-            --accent-gradient-from: #0ea5e9;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --accent-gradient-from: #0284c7;
             --accent-gradient-via: #38bdf8;
-            --accent-gradient-to: #818cf8;
-            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #7dd3fc 30%, #e0e7ff 60%, #ffffff 100%);
-            --particle-hue-1: 190;
-            --particle-hue-2: 210;
+            --accent-gradient-to: #22d3ee;
+            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #38bdf8 30%, #7dd3fc 60%, #ffffff 100%);
+            --particle-hue-1: 195;
+            --particle-hue-2: 215;
             --badge-bg: rgba(56, 189, 248, 0.2);
             --badge-border: rgba(56, 189, 248, 0.4);
             --badge-text: #7dd3fc;
-        }
-
-        body[data-theme="purple"] {
-            --accent-primary: #c084fc;
-            --accent-secondary: #a855f7;
-            --accent-light: #f3e8ff;
-            --accent-glow: rgba(192, 132, 252, 0.35);
-            --accent-gradient-from: #8b5cf6;
-            --accent-gradient-via: #c084fc;
-            --accent-gradient-to: #f472b6;
-            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #c084fc 30%, #f3e8ff 60%, #ffffff 100%);
-            --particle-hue-1: 260;
-            --particle-hue-2: 280;
-            --badge-bg: rgba(192, 132, 252, 0.2);
-            --badge-border: rgba(192, 132, 252, 0.4);
-            --badge-text: #e9d5ff;
-        }
-
-        body[data-theme="emerald"] {
-            --accent-primary: #34d399;
-            --accent-secondary: #10b981;
-            --accent-light: #d1fae5;
-            --accent-glow: rgba(52, 211, 153, 0.35);
-            --accent-gradient-from: #059669;
-            --accent-gradient-via: #34d399;
-            --accent-gradient-to: #38bdf8;
-            --shimmer-grad: linear-gradient(90deg, #ffffff 0%, #34d399 30%, #d1fae5 60%, #ffffff 100%);
-            --particle-hue-1: 140;
-            --particle-hue-2: 160;
-            --badge-bg: rgba(52, 211, 153, 0.2);
-            --badge-border: rgba(52, 211, 153, 0.4);
-            --badge-text: #a7f3d0;
         }
 
         body {
@@ -114,7 +67,6 @@
             color: #f1f5f9;
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background-color 0.4s ease;
         }
 
         /* Full page crystal canvas backdrop */
@@ -125,7 +77,6 @@
             background-attachment: fixed;
         }
 
-        /* Glassmorphism Crystal Cards with Custom Image Background (70% opacity) */
         .crystal-card {
             position: relative;
             overflow: hidden;
@@ -169,7 +120,6 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
         }
 
-        /* Prismatic rainbow shine border effect */
         .prism-border {
             position: relative;
         }
@@ -193,7 +143,6 @@
             100% { filter: hue-rotate(360deg); }
         }
 
-        /* Dynamic theme classes for custom elements */
         .theme-accent-text {
             color: var(--accent-primary);
         }
@@ -245,18 +194,9 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-secondary);
         }
-
-        .pulse-subtle {
-            animation: pulseSubtle 2s infinite ease-in-out;
-        }
-
-        @keyframes pulseSubtle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.02); }
-        }
     </style>
 </head>
-<body data-theme="pink" class="bg-backdrop relative min-h-screen text-slate-100 flex flex-col">
+<body class="bg-backdrop relative min-h-screen text-slate-100 flex flex-col">
 
     <!-- Interactive Background Particles Canvas -->
     <canvas id="crystalCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
@@ -267,9 +207,8 @@
         <!-- Header -->
         <header class="crystal-card rounded-2xl p-4 sm:p-6 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-4">
-                <div id="mainLogoIcon" class="w-12 h-12 rounded-xl theme-icon-bg flex items-center justify-center text-2xl text-white">
-                    <i class="fa-solid fa-gem animate-pulse"></i>
-                </div>
+                <!-- Custom Logo Image (Replacing circled item) -->
+                <img src="https://res.cloudinary.com/ajhuqnra/image/upload/v1791549066/IMG-20261009-WA0035.png" alt="Logo SPM 2026" class="w-12 h-12 rounded-xl object-cover shadow-lg border border-white/20 animate-pulse">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight shimmer-text">
                         PEPERIKSAAN SPM 2026 
@@ -281,21 +220,9 @@
                 </div>
             </div>
 
-            <!-- Header Controls -->
+            <!-- Header Controls (Theme selector removed, Crystal Glass fixed as base) -->
             <div class="flex flex-wrap items-center gap-3">
                 
-                <!-- Penukar Tema (Theme Switcher) -->
-                <div class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold crystal-card hover:bg-white/20 text-white flex items-center gap-2 transition">
-                    <i id="themeIcon" class="fa-solid fa-palette text-pink-400"></i>
-                    <span class="hidden sm:inline text-slate-300">Tema:</span>
-                    <select id="themeSelect" onchange="changeTheme(this.value)" class="bg-transparent text-white text-xs sm:text-sm font-bold focus:outline-none cursor-pointer">
-                        <option value="pink" class="bg-slate-900 text-pink-300" selected>🌸 Pink Crystal (Utama)</option>
-                        <option value="blue" class="bg-slate-900 text-sky-300">💎 Blue Crystal</option>
-                        <option value="purple" class="bg-slate-900 text-purple-300">🔮 Purple Amethyst</option>
-                        <option value="emerald" class="bg-slate-900 text-emerald-300">🌿 Emerald Jade</option>
-                    </select>
-                </div>
-
                 <!-- Sound Ambient Toggle -->
                 <button id="soundBtn" onclick="toggleSound()" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold crystal-card hover:bg-white/20 text-sky-200 flex items-center gap-2 transition">
                     <i id="soundIcon" class="fa-solid fa-volume-xmark text-slate-400"></i>
@@ -321,7 +248,7 @@
             <div class="crystal-hero prism-border rounded-3xl p-6 sm:p-8 lg:p-10 relative overflow-hidden">
                 <!-- Background ambient light glow -->
                 <div id="heroGlow1" class="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl pointer-events-none transition-all duration-500" style="background: var(--accent-glow);"></div>
-                <div id="heroGlow2" class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full blur-3xl pointer-events-none transition-all duration-500" style="background: rgba(168, 85, 247, 0.2);"></div>
+                <div id="heroGlow2" class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full blur-3xl pointer-events-none transition-all duration-500" style="background: rgba(14, 165, 233, 0.2);"></div>
 
                 <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
                     <!-- Left Info Area -->
@@ -346,7 +273,7 @@
                             <label for="subjectSelect" class="block text-xs font-semibold uppercase tracking-wider text-sky-300 mb-1">
                                 <i class="fa-solid fa-arrows-rotate mr-1"></i>Pilih Subjek Untuk Kira Detik:
                             </label>
-                            <select id="subjectSelect" onchange="onHeroSubjectChange(this.value)" class="w-full bg-slate-900/80 text-sky-100 text-sm rounded-xl px-4 py-2.5 border border-sky-400/30 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                            <select id="subjectSelect" onchange="onHeroSubjectChange(this.value)" class="w-full bg-slate-900/80 text-sky-100 text-sm rounded-xl px-4 py-2.5 border border-sky-400/30 focus:outline-none focus:ring-2 focus:ring-sky-400">
                                 <!-- Populated dynamically -->
                             </select>
                         </div>
@@ -410,7 +337,7 @@
                 <!-- Search Input -->
                 <div class="relative w-full md:w-80">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-sky-300/70"></i>
-                    <input type="text" id="searchInput" oninput="onFilterChange()" placeholder="Cari kod kertas atau subjek..." class="w-full pl-10 pr-4 py-2 bg-slate-900/60 border border-white/15 rounded-xl text-sm text-white placeholder-sky-300/50 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400">
+                    <input type="text" id="searchInput" oninput="onFilterChange()" placeholder="Cari kod kertas atau subjek..." class="w-full pl-10 pr-4 py-2 bg-slate-900/60 border border-white/15 rounded-xl text-sm text-white placeholder-sky-300/50 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400">
                 </div>
 
                 <!-- Category Tabs -->
@@ -537,7 +464,7 @@
             </div>
 
             <!-- Modal Live Countdown Breakdown -->
-            <div class="bg-slate-950/80 p-4 rounded-2xl border border-pink-500/30 text-center mb-6">
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-sky-500/30 text-center mb-6">
                 <div class="text-xs uppercase theme-accent-text font-bold tracking-wider mb-2">
                     <i class="fa-solid fa-stopwatch mr-1"></i>Baki Masa Sehingga Bermula
                 </div>
@@ -586,8 +513,8 @@
                 </div>
 
                 <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-                    <h4 class="font-bold text-pink-300 mb-1 flex items-center gap-2">
-                        <i class="fa-solid fa-ban text-pink-400"></i> Larangan Utama
+                    <h4 class="font-bold text-sky-300 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-ban text-sky-400"></i> Larangan Utama
                     </h4>
                     <ul class="list-disc list-inside space-y-1 text-slate-300">
                         <li>Dilarang membawa telefon bimbit, sebarang nota, peranti elektronik, atau beg ke dewan peperiksaan.</li>
@@ -1245,32 +1172,6 @@
         let currentModalSubjectId = null;
         let isSoundOn = false;
         let synth = null;
-        let currentTheme = localStorage.getItem('spm_crystal_theme') || 'pink';
-
-        /**
-         * Change Theme Handler (🌸 Pink Crystal, 💎 Blue Crystal, 🔮 Purple Amethyst, 🌿 Emerald Jade)
-         */
-        function changeTheme(themeKey) {
-            currentTheme = themeKey;
-            document.body.setAttribute('data-theme', themeKey);
-            localStorage.setItem('spm_crystal_theme', themeKey);
-
-            // Update Header Icon
-            const icon = document.getElementById('themeIcon');
-            if (themeKey === 'pink') icon.className = 'fa-solid fa-palette text-pink-400';
-            else if (themeKey === 'blue') icon.className = 'fa-solid fa-palette text-sky-400';
-            else if (themeKey === 'purple') icon.className = 'fa-solid fa-palette text-purple-400';
-            else if (themeKey === 'emerald') icon.className = 'fa-solid fa-palette text-emerald-400';
-
-            // Ensure select dropdown value is updated
-            document.getElementById('themeSelect').value = themeKey;
-
-            // Trigger sound chime if sound enabled
-            playCrystalChime();
-
-            // Re-render subjects to reflect theme changes
-            renderSubjects();
-        }
 
         /**
          * Calculates detailed breakdown in Months, Days, Hours, Minutes, Seconds
@@ -1419,7 +1320,7 @@
 
                         <!-- Title & Category -->
                         <div class="mb-4">
-                            <h3 class="font-bold text-white text-base group-hover:text-pink-300 transition line-clamp-2">
+                            <h3 class="font-bold text-white text-base group-hover:text-sky-300 transition line-clamp-2">
                                 ${s.name}
                             </h3>
                             <span class="text-[11px] text-sky-200/60 font-medium">
@@ -1639,12 +1540,12 @@
                     synth.volume.value = -12;
                 }
                 Tone.start();
-                icon.className = 'fa-solid fa-volume-high text-pink-300';
-                btn.classList.add('bg-pink-500/20', 'border-pink-400/40');
+                icon.className = 'fa-solid fa-volume-high text-sky-300';
+                btn.classList.add('bg-sky-500/20', 'border-sky-400/40');
                 playCrystalChime();
             } else {
                 icon.className = 'fa-solid fa-volume-xmark text-slate-400';
-                btn.classList.remove('bg-pink-500/20', 'border-pink-400/40');
+                btn.classList.remove('bg-sky-500/20', 'border-sky-400/40');
             }
         }
 
@@ -1691,10 +1592,9 @@
                     }
                 }
                 draw() {
-                    // Fetch dynamic particle hues from theme variables
                     const computedStyle = getComputedStyle(document.body);
-                    const h1 = parseInt(computedStyle.getPropertyValue('--particle-hue-1')) || 330;
-                    const h2 = parseInt(computedStyle.getPropertyValue('--particle-hue-2')) || 350;
+                    const h1 = parseInt(computedStyle.getPropertyValue('--particle-hue-1')) || 195;
+                    const h2 = parseInt(computedStyle.getPropertyValue('--particle-hue-2')) || 215;
                     const hue = Math.random() > 0.5 ? h1 : h2;
 
                     ctx.save();
@@ -1725,9 +1625,6 @@
         }
 
         window.onload = function () {
-            // Initialize theme from local storage or default Pink
-            changeTheme(currentTheme);
-
             initCrystalCanvas();
             initHeroTarget();
             renderSubjects();
